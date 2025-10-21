@@ -1,5 +1,5 @@
 import { Utils } from 'src/shared/utils/utils';
-import { Entity } from '../shared/entity';
+import { Entity } from '../shared/entities/entity';
 
 export type UserCreateDto = {
   email: string;
