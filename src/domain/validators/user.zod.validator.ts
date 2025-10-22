@@ -2,6 +2,7 @@ import z from 'zod';
 import { User } from '../entities/user.entity';
 import { Validator } from '../shared/validators/validator';
 import { ZodUtils } from 'src/shared/utils/zod-utils';
+import { ValidatorDomainException } from '../shared/exceptions/validator-domain.exception';
 
 export class UserZodValidator implements Validator<User> {
   private constructor() {}
@@ -16,7 +17,11 @@ export class UserZodValidator implements Validator<User> {
     } catch (error) {
       if (error instanceof z.ZodError) {
         const message = ZodUtils.formatZodError(error);
-        throw new Error(`UserZodValidator: ${message}`);
+        throw new ValidatorDomainException(
+          `Error while validating User ${input.getId()}: ${message}`,
+          `Os dados para a criação do usuário são inválidos:${message}`,
+          UserZodValidator.name,
+        );
       }
     }
   }
